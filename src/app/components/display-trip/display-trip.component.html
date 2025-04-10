@@ -1,0 +1,71 @@
+<div class="trip-container" *ngIf="levels.length">
+  <h2>Display Trip</h2>
+
+  <div
+    *ngFor="let trip of levels"
+    [ngClass]="{ 'level-1': trip.level === 1, 'level-2': trip.level === 2 }"
+    class="trip-item"
+  >
+    <span class="trip-text">
+      {{ trip?.start | slice : 0 : 3 }}
+      <mat-icon class="arrow-icon">arrow_forward</mat-icon>
+      {{ trip?.end | slice : 0 : 3 }}
+      <strong>(Level: {{ trip.level }})</strong>
+    </span>
+  </div>
+
+  <!-- SVG Chart -->
+  <h3>SVG Chart</h3>
+  <div class="svg-container">
+    <svg width="100%" height="200">
+      <g *ngFor="let trip of levels; let i = index">
+        <line
+          *ngIf="trip.level === 1"
+          [attr.x1]="i * 150 + 20"
+          y1="50"
+          [attr.x2]="(i + 1) * 150"
+          y2="50"
+          stroke="blue"
+          stroke-width="2"
+          [attr.marker-end]="trip.arrow ? 'url(#arrow)' : ''"
+        />
+
+        <path
+          *ngIf="trip.level === 2"
+          [attr.d]="
+            'M' +
+            (i * 150 + 20) +
+            ',50 Q' +
+            (i + 0.5) * 150 +
+            ',30 ' +
+            (i + 1) * 150 +
+            ',50'
+          "
+          stroke="orange"
+          stroke-width="2"
+          fill="none"
+        />
+
+        <circle [attr.cx]="i * 150 + 20" cy="50" r="5" fill="black" />
+        <circle [attr.cx]="(i + 1) * 150" cy="50" r="5" fill="black" />
+
+        <text [attr.x]="i * 150" y="70" font-size="12">
+          {{ trip.start | slice : 0 : 3 }} - {{ trip.end | slice : 0 : 3 }}
+        </text>
+      </g>
+
+      <defs>
+        <marker
+          id="arrow"
+          markerWidth="10"
+          markerHeight="10"
+          refX="10"
+          refY="3"
+          orient="auto"
+        >
+          <path d="M0,0 L0,6 L9,3 Z" fill="blue" />
+        </marker>
+      </defs>
+    </svg>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="form-container">
+  <h2>Add New Trip</h2>
+
+  <form [formGroup]="tripForm" (ngSubmit)="addTrips()">
+    <div class="form-group">
+      <label>Start Point</label>
+      <input
+        type="text"
+        placeholder="Enter start location"
+        formControlName="start"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>End Point</label>
+      <input
+        type="text"
+        placeholder="Enter end location"
+        formControlName="end"
+      />
+    </div>
+
+    <button type="submit" [disabled]="tripForm.invalid">Add Trip</button>
+  </form>
+</div>
